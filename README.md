@@ -14,6 +14,9 @@ $ ln -s /path-to-cloned-repo/git-smartlog.py ~/bin/git-smartlog
 
 # Add an alias to the global git config
 $ git config --global alias.sl smartlog
+
+# Install git dependencies
+$ python3 -m pip install gitpython colorama
 ```
 
 (Quick explanation on the git alias: By default, whenever you try to run a command `git foo`, git will search for an executable binary named `git-foo`)
