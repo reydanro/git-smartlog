@@ -23,7 +23,7 @@ Navigate to any folder in the repo you are working on and run
 ```
 $ git sl
 ```
-![smartlog example](/images/example.png)
+![smartlog example](/doc/example.png)
 
 # Known limitations
 `git-smartlog` currently does not support merged commits. Where I needed this so far, it was the case of a monorepo with a rebase approach to landing changes to the master branch. Merged commits were rare and adding support was not a necessity. If you need it, feel free to add it and contribute back to the community.
