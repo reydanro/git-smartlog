@@ -59,12 +59,15 @@ def main():
         tree_builder.add(ref.commit)
         refmap.add(ref)
 
-        remote_ref = ref.tracking_branch()
-        if remote_ref is not None:
-            logger.debug("Adding remote tracking branch {}".format(remote_ref.name))
-            if remote_ref.commit != ref.commit:
-                tree_builder.add(remote_ref.commit)
-            refmap.add(remote_ref)
+        try:
+            remote_ref = ref.tracking_branch()
+            if remote_ref is not None:
+                logger.debug("Adding remote tracking branch {}".format(remote_ref.name))
+                if remote_ref.commit != ref.commit:
+                    tree_builder.add(remote_ref.commit)
+                refmap.add(remote_ref)
+        except ValueError:
+            pass
 
     node_printer = TreeNodePrinter(repo, refmap)
     tree_printer = TreePrinter(repo, node_printer)
