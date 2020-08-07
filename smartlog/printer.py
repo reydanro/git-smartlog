@@ -172,7 +172,7 @@ class TreeNodePrinter:
         if day_diff < 7:
             return str(day_diff) + " days ago"
         if day_diff < 31:
-            return str(day_diff / 7) + " weeks ago"
+            return str(round(day_diff / 7)) + " weeks ago"
 
         return then.strftime("%Y-%m-%d")
 
