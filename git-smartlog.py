@@ -76,7 +76,7 @@ def main():
     if tree_builder.skip_count > 0: 
         print("Skipped {} old commits. Use `-a` argument to display them.".format(tree_builder.skip_count))
 
-    print("Finished in {:.2f} ms.".format(time() - start_time))
+    print("Finished in {:.2f} s.".format(time() - start_time))
 
 if __name__ == "__main__":
     main()
