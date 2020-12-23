@@ -8,7 +8,7 @@ For example, in the case of monorepo instances, master can contain hundreds of c
 
 Clone the repo to the location of your choice
 
-```
+```bash
 # Create a symlink to a location that is in your environment path (e.g)
 $ ln -s /path-to-cloned-repo/git-smartlog.py ~/bin/git-smartlog
 
@@ -23,7 +23,7 @@ $ python3 -m pip install gitpython colorama
 
 # How it works
 Navigate to any folder in the repo you are working on and run
-```
+```bash
 $ git sl
 ```
 ![smartlog example](/doc/example.png)
