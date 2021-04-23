@@ -34,7 +34,7 @@ def main():
     # Attempt to open the git repo in the current working directory
     cwd = os.getcwd()
     try:        
-        repo = git.Repo(cwd)
+        repo = git.Repo(cwd, search_parent_directories=True)
     except git.exc.InvalidGitRepositoryError:
         print("Could not find a git repository at {}".format(cwd))
         exit(1)
