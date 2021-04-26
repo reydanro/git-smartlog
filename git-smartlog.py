@@ -42,13 +42,13 @@ def main():
     refmap = RefMap(repo.head)
 
     try:
-        master_ref = repo.refs["origin/master"]
-        refmap.add(master_ref)
+        head_ref = repo.refs["origin/HEAD"]
+        refmap.add(head_ref)
     except IndexError:
-        print("Unable to find origin/master branch")
+        print("Unable to find origin/HEAD branch")
         exit(1)
 
-    tree_builder = TreeBuilder(repo, master_ref.commit, date_limit = date_limit)
+    tree_builder = TreeBuilder(repo, head_ref.commit, date_limit = date_limit)
 
     # Add current head commit
     tree_builder.add(repo.head.commit, ignore_date_limit = True)
