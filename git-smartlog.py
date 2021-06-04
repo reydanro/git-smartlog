@@ -9,6 +9,8 @@ from smartlog.builder import TreeBuilder
 from smartlog.printer import TreePrinter, TreeNodePrinter, RefMap
 from time import time
 
+CONFIG_FNAME = "smartlog"
+
 logging.basicConfig()
 
 logger = logging.getLogger("smartlog")
@@ -39,13 +41,18 @@ def main():
         print("Could not find a git repository at {}".format(cwd))
         exit(1)
 
+    # Load the smartlog config file
+    config = configparser.ConfigParser(allow_no_value = True)
+    config.read(os.path.join(repo.git_dir, CONFIG_FNAME))
+    
     refmap = RefMap(repo.head)
 
+    head_refname = config.get("remote", "head", fallback="origin/HEAD")
     try:
-        head_ref = repo.refs["origin/HEAD"]
+        head_ref = repo.refs[head_refname]
         refmap.add(head_ref)
     except IndexError:
-        print("Unable to find origin/HEAD branch")
+        print(f"Unable to find {head_refname} branch")
         exit(1)
 
     tree_builder = TreeBuilder(repo, head_ref.commit, date_limit = date_limit)
@@ -68,6 +75,16 @@ def main():
                 refmap.add(remote_ref)
         except ValueError:
             pass
+
+    # Add any extra remote branches from the config file
+    if config.has_section("extra_refs"):
+        for key in config["extra_refs"]:
+            try:
+                ref = repo.refs[key]
+                refmap.add(ref)
+                tree_builder.add(ref.commit)
+            except IndexError:
+                print(f"Unable to find {key} ref. Check configuration in .git/{CONFIG_FNAME} file")
 
     node_printer = TreeNodePrinter(repo, refmap)
     tree_printer = TreePrinter(repo, node_printer)
