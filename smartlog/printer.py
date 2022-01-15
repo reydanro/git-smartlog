@@ -18,10 +18,31 @@ class TreePrinter:
             raise ValueError("root node is null")
         self._print_node(root_node, "")
 
-    def _print_node(self, node, prefix):
+    def _skip(self, node, max=20):
+        prev_nodes = []
+        sorted_children = self._sorted_children(node)
+        idx = 0
+        while len(sorted_children) == 1:
+            # Keep track of the last `max` children
+            prev_nodes.append(node)
+            if (len(prev_nodes) > max):
+                prev_nodes.pop(0)
+
+            # Traverse
+            node = sorted_children[0]
+            sorted_children = self._sorted_children(node)
+
+        return prev_nodes[0] if len(prev_nodes) > 0 else node
+
+    def _print_node(self, node, prefix, depth=0):
         main_graph_connector = ""
         for i, child in enumerate(self._sorted_children(node)):
-            self._print_node(child, prefix + main_graph_connector + (" " if i > 0 else ""))
+            skipped_child = self._skip(child)
+            self._print_node(skipped_child, prefix + main_graph_connector + (" " if i > 0 else ""), 0)
+
+            if child != skipped_child:
+                print(prefix + "╷ ...")
+                print(prefix + "╷")
 
             child_is_head = (self.repo.head.commit == child.commit) if child.commit is not None else False
 
